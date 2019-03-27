@@ -1,15 +1,20 @@
 #include <iostream>
+#include <fstream>
+#include "fileIO.h"
 
 using namespace std;
 
+FileIO::FileIO()
+{
+    filepath = "testFile.c";
+}
 FileIO::FileIO(string fp)
 {
     filepath = fp;
-    ifstream file (filepath);
 }
 FileIO::~FileIO()
 {
-    file.close();
+
 }
 
 string FileIO::collectDelimiters()
@@ -17,6 +22,10 @@ string FileIO::collectDelimiters()
     int count = 0;
     char c;
     string output;
+    string line;
+
+    ifstream file (filepath);
+
     if(file.is_open())
     {
         file.clear();
@@ -25,17 +34,22 @@ string FileIO::collectDelimiters()
         while (getline (file, line))
         {
             //Keep track of what line you are on
-            output.append(++count);
+            //output.append(to_string(++count));
             //iterate through each character and see if its a delimiter
             for (int i = 0; i < (line.size()-1); i++)
             {
                 c = line[i];
                 if(c == '(' || c == '{' || c == '[' || c == ']' || c == '}' || c == ')')
                 {
-                    output.append(c);
-                } 
+                    output.append(1, c);
+                }
             }
         }
-
+        file.close();
     }
+    else
+    {
+        cout << "Invalid filepath" << endl;
+    }
+    return output;
 }

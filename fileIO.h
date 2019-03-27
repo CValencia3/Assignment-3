@@ -7,9 +7,9 @@ class FileIO
     public:
         FileIO();
         FileIO(string filepath);
+        ~FileIO();
 
-        static void TestPath(string path);
-    private:
+        string collectDelimiters();
+
         string filepath;
-
-}
+};

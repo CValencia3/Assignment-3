@@ -1,11 +1,16 @@
 #include <iostream>
+#include "checker.h"
 #include "genStack.h"
 
 using namespace std;
 
 Checker::Checker()
 {
-    FileIO io(filepath);
+    FileIO io("testFile.c");
+}
+Checker::Checker(string fp)
+{
+    FileIO io(fp);
 }
 Checker::~Checker()
 {
@@ -14,27 +19,27 @@ Checker::~Checker()
 
 bool Checker::analyze()
 {
+    //get a string containg all delimiters
     delims = io.collectDelimiters();
 
-    cout << endl;
     cout << delims << endl;
-    cout << endl;
 
-    if(parenMatch(delims))
+    //check for each delimiter and break when an error is found
+    if(delimMatch(delims,"()"))
         cout << "all parentheses matched" << endl;
     else
     {
         cout << "file is missing a parentheses" << endl;
         return false;
     }
-    if(curlyMatch(delims))
+    if(delimMatch(delims,"{}"))
         cout << "all curly braces matched" << endl;
     else
     {
         cout << "file is missing a curly brace" << endl;
         return false;
     }
-    if(squareMatch(delims))
+    if(delimMatch(delims,"[]"))
         cout << "all square braces matched" << endl;
     else
     {
@@ -46,95 +51,28 @@ bool Checker::analyze()
 
 }
 
-Bool Checker::parenMatch(string x)
+bool Checker::delimMatch(string x, string delimiters)
 {
-    int line;
-    GenStack <char> myStack();
-    for(int i = 0; i < x.length() - 1; i++)
+    GenStack <char> myStack(128);
+    for(int i = 0; i < x.length(); i++)
     {
-        if (x[i] == '(')
-            if (myStack.empty() && isNumber(x[i-1]))
-            {
-                line = parseNum(x[i-1]);
-            }
-            myStack.push(x[i]);
-        else if (x[i] == ')')
+        if (x[i] == delimiters[0])
         {
-            if (myStack.empty())
+            myStack.push(x[i]);
+        }
+        else if (x[i] ==  delimiters[1])
+        {
+            if (myStack.isEmpty())
                 return false; //Nothing to match with
-            if (myStack.top()  =! x[i])
-                return false;
             myStack.pop();
 
         }
     }
-    if (myStack.empty())
+    if (myStack.isEmpty())
         return true; //every symbol matched
     else
     {
-        cout << "Line " << line << " contains an unmatched (" << endl;
-        return false; //some symbols were never matched
-    }
-}
-
-Checker::curlyMatch(string x)
-{
-    int line;
-    GenStack <char> myStack();
-    for(int i = 0; i < x.length() - 1; i++)
-    {
-        if (x[i] == '{')
-            if (myStack.empty() && isNumber(x[i-1]))
-            {
-                line = parseNum(x[i-1]);
-            }
-            myStack.push(x[i]);
-        else if (x[i] == '}')
-        {
-            if (myStack.empty())
-                return false; //Nothing to match with
-            if (myStack.top()  =! x[i])
-                return false;
-            myStack.pop();
-
-        }
-    }
-    if (myStack.empty())
-        return true; //every symbol matched
-    else
-    {
-        cout << "Line " << line << " contains an unmatched {" << endl;
-        return false; //some symbols were never matched
-    }
-}
-
-Checker::squareMatch(string x)
-{
-    int line;
-    GenStack <char> myStack();
-    for(int i = 0; i < x.length() - 1; i++)
-    {
-        if (x[i] == '[')
-            if (myStack.empty() && isNumber(x[i-1]))
-            {
-                line = parseNum(x[i-1]);
-            }
-            myStack.push(x[i]);
-        else if (x[i] == ']')
-        {
-            if (myStack.empty())
-                return false; //Nothing to match with
-            if (myStack.top()  =! x[i])
-                return false;
-            myStack.pop();
-
-        }
-    }
-    if (myStack.empty())
-        return true; //every symbol matched
-    else
-    {
-        cout << "Line " << line << " contains an unmatched [" << endl;
+        cout << " contains an unmatched " << delimiters << endl;
         return false; //some symbols were never matched
     }
 }

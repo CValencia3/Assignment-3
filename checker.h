@@ -1,5 +1,5 @@
 #include <iostream>
-#include "genStack.h"
+#include "fileIO.h"
 
 using namespace std;
 
@@ -7,21 +7,14 @@ class Checker
 {
     public:
         Checker();
+        Checker(string filepath);
         ~Checker();
 
-        bool analyze(string filepath);
-
-        FileIO io;
+        bool analyze();
+        bool delimMatch(string x, string delimiters);
 
 
     private:
-        GenStack myStack;
-
-        int paren;
-        int curly;
-        int square;
-
-        int length;
-
-        string delims
-}
+        FileIO io;
+        string delims;
+};

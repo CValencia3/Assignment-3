@@ -1,24 +1,25 @@
 #include <iostream>
-#include "genStack.h"
+#include "checker.h"
 
 using namespace std;
 
+
+string UpperString(string str)
+{
+    string up = str;
+    int i = 0;
+    char c;
+    while (up[i])
+    {
+      up[i] = toupper(up[i]);
+      i++;
+    }
+    return up;
+}
+
+
 int main(int argc, char** argv )
 {
-    bool error = false;
-
-    string filepath = "testfile.c";
-
-    //Main function
-    Checker myChecker(filepath);
-    error = myChecker.analyze();
-
-    cout << "is there an error?" << endl;
-    cout << error << endl;
-
-    return 0;
-
-    /*
     if(argc > 0)
     {
         bool error = false;
@@ -27,8 +28,8 @@ int main(int argc, char** argv )
         string filepath = argv[1];
 
         //Main function
-        Checker myChecker();
-        error = myChecker.analyze(filepath);
+        Checker myChecker(filepath);
+        error = myChecker.analyze();
 
         //Looping mechanisms
         while (!error)
@@ -45,7 +46,8 @@ int main(int argc, char** argv )
             {
                 cout << "Please enter the another file path: ";
                 cin >> filepath;
-                error = myChecker.analyze(filepath);
+                Checker myChecker(filepath);
+                error = myChecker.analyze();
             }
             else
             {
@@ -61,5 +63,4 @@ int main(int argc, char** argv )
 
     cout << "The program exited successfully." << endl;
     return 0;
-    */
 }
