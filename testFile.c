@@ -12,7 +12,7 @@ using namespace std;
 // Returns whether the cell should live, die, or stay the same
 char GameRules::Evaluate(int neighbors, char current){
     // Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-    if(neighbors < 2)
+    if(neighbors < 2)(
         return '-';
     // Any live cell with two or three live neighbors lives on to the next generation.
     else if(neighbors == 2)
