@@ -7,20 +7,20 @@ Assignment 3 - Syntax Checker
 
 Source Files:
     makefile
-	main.cpp
+    main.cpp
     checker.cpp
     checker.h
     fileIO.cpp
     fileIO.h
     genStack.h
-	testFile.c
+    testFile.c
 
 Description:
     	Will check if a file has the correct number of delimiters.
 
 How to Run:
 
-	make then run main.out with a command line argument containing a filepath for a text file.
+	Make, then run main.out with a command line argument containing a filepath for a text file.
 
 References:
     Textbook example of delimiter checker
