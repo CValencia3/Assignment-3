@@ -20,7 +20,7 @@ string UpperString(string str)
 
 int main(int argc, char** argv )
 {
-    if(argc > 0)
+    if((argc > 0) && (argv[1] != NULL))
     {
         bool error = false;
         string io;
